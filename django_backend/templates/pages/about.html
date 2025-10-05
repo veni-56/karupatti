@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+
+{% block title %}About Us - {{ brand }}{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <h1 class="display-4 mb-4">About Karupatti Shop</h1>
+      
+      <div class="card mb-4">
+        <div class="card-body">
+          <h2 class="h4 mb-3">Our Story</h2>
+          <p class="text-muted">
+            Karupatti Shop is a multi-vendor e-commerce platform dedicated to bringing you authentic, 
+            high-quality products from trusted sellers. We specialize in traditional products like 
+            Karupatti (palm jaggery) and other natural, minimally processed goods that celebrate 
+            heritage and wellness.
+          </p>
+        </div>
+      </div>
+
+      <div class="card mb-4">
+        <div class="card-body">
+          <h2 class="h4 mb-3">What is Karupatti?</h2>
+          <p class="text-muted">
+            Karupatti, also known as palm jaggery, is a traditional natural sweetener made from 
+            the sap of palm trees. Unlike refined sugar, it retains essential minerals and nutrients, 
+            making it a healthier alternative. Our platform connects you with authentic sellers who 
+            source and produce genuine Karupatti products.
+          </p>
+        </div>
+      </div>
+
+      <div class="card mb-4">
+        <div class="card-body">
+          <h2 class="h4 mb-3">Our Mission</h2>
+          <ul class="text-muted">
+            <li class="mb-2">Connect buyers with authentic, quality products</li>
+            <li class="mb-2">Support small businesses and traditional sellers</li>
+            <li class="mb-2">Promote healthy, natural alternatives</li>
+            <li class="mb-2">Provide a secure and reliable marketplace</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h2 class="h4 mb-3">Why Choose Us?</h2>
+          <div class="row g-3">
+            <div class="col-md-6">
+              <div class="d-flex">
+                <div class="flex-shrink-0">
+                  <span class="fs-3">✓</span>
+                </div>
+                <div class="flex-grow-1 ms-3">
+                  <h5 class="h6">Verified Sellers</h5>
+                  <p class="text-muted small mb-0">All sellers are verified for authenticity</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="d-flex">
+                <div class="flex-shrink-0">
+                  <span class="fs-3">✓</span>
+                </div>
+                <div class="flex-grow-1 ms-3">
+                  <h5 class="h6">Secure Payments</h5>
+                  <p class="text-muted small mb-0">Multiple secure payment options</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="d-flex">
+                <div class="flex-shrink-0">
+                  <span class="fs-3">✓</span>
+                </div>
+                <div class="flex-grow-1 ms-3">
+                  <h5 class="h6">Fast Delivery</h5>
+                  <p class="text-muted small mb-0">Quick and reliable shipping</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="d-flex">
+                <div class="flex-shrink-0">
+                  <span class="fs-3">✓</span>
+                </div>
+                <div class="flex-grow-1 ms-3">
+                  <h5 class="h6">Customer Support</h5>
+                  <p class="text-muted small mb-0">Dedicated support team</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="text-center mt-5">
+        <h3 class="h4 mb-3">Ready to Start Shopping?</h3>
+        <a href="{% url 'store:product_list' %}" class="btn btn-primary btn-lg">Browse Products</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

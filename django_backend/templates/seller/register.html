@@ -1,0 +1,35 @@
+{% extends "bootstrap_base.html" %}
+{% block content %}
+<div class="container py-4" style="max-width: 720px;">
+  <h1 class="h4 mb-3">Become a Seller</h1>
+  <form method="post" novalidate>
+    {% csrf_token %}
+    <div class="row g-3">
+      <div class="col-md-6">
+        <label class="form-label">Username</label>
+        <input name="username" class="form-control" required />
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">Email</label>
+        <input type="email" name="email" class="form-control" required />
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">Password</label>
+        <input type="password" name="password" class="form-control" required />
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">Shop Name</label>
+        <input name="shop_name" class="form-control" required />
+      </div>
+      <div class="col-12">
+        <label class="form-label">Shop Description</label>
+        <textarea name="shop_description" rows="3" class="form-control"></textarea>
+      </div>
+    </div>
+    <div class="d-flex gap-2 mt-3">
+      <button class="btn btn-primary" type="submit">Create Seller Account</button>
+      <a class="btn btn-outline-secondary" href="{% url 'login' %}">Already have an account?</a>
+    </div>
+  </form>
+</div>
+{% endblock %}

@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Store Credit - Karupatti Shop{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <h2 class="mb-4">Store Credit</h2>
+    
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+             Balance Card 
+            <div class="card mb-4 bg-primary text-white">
+                <div class="card-body text-center py-5">
+                    <h3 class="mb-2">Available Balance</h3>
+                    <h1 class="display-3">${{ store_credit.balance }}</h1>
+                    <p class="mb-0">Use this credit on your next purchase</p>
+                </div>
+            </div>
+            
+             Transaction History 
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Transaction History</h5>
+                </div>
+                <div class="card-body">
+                    {% if transactions %}
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Type</th>
+                                    <th>Amount</th>
+                                    <th>Description</th>
+                                    <th>Balance</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for transaction in transactions %}
+                                <tr>
+                                    <td>{{ transaction.created_at|date:"M d, Y" }}</td>
+                                    <td>
+                                        {% if transaction.transaction_type == 'credit' %}
+                                        <span class="badge bg-success">Credit</span>
+                                        {% else %}
+                                        <span class="badge bg-danger">Debit</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if transaction.transaction_type == 'credit' %}
+                                        <span class="text-success">+${{ transaction.amount }}</span>
+                                        {% else %}
+                                        <span class="text-danger">-${{ transaction.amount }}</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ transaction.description|default:"N/A" }}</td>
+                                    <td>${{ transaction.balance_after }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% else %}
+                    <p class="text-muted text-center py-4">No transactions yet</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

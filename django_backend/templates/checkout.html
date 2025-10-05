@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="container">
+  <h1 class="section-title">Checkout</h1>
+  <p>Confirm your order and proceed. This demo marks orders as paid immediately.</p>
+  <form method="post">
+    {% csrf_token %}
+    <button class="btn btn-primary" type="submit">Place Order</button>
+  </form>
+</section>
+{% endblock %}

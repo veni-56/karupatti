@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{% block title %}Products - {{ brand }}{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+  <h1 class="h2 mb-4">All Products</h1>
+  
+   Search and Filter Bar 
+  <div class="card mb-4">
+    <div class="card-body">
+      <form method="get" class="row g-3">
+        <div class="col-md-4">
+          <input type="text" name="search" class="form-control" placeholder="Search products..." value="{{ search_query }}">
+        </div>
+        <div class="col-md-3">
+          <select name="category" class="form-select">
+            <option value="">All Categories</option>
+            {% for cat in categories %}
+            <option value="{{ cat.slug }}" {% if category_slug == cat.slug %}selected{% endif %}>
+              {{ cat.name }}
+            </option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="col-md-3">
+          <select name="sort" class="form-select">
+            <option value="">Sort By</option>
+            <option value="newest" {% if sort_by == 'newest' %}selected{% endif %}>Newest First</option>
+            <option value="price_low" {% if sort_by == 'price_low' %}selected{% endif %}>Price: Low to High</option>
+            <option value="price_high" {% if sort_by == 'price_high' %}selected{% endif %}>Price: High to Low</option>
+          </select>
+        </div>
+        <div class="col-md-2">
+          <button type="submit" class="btn btn-primary w-100">Filter</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+   Products Grid 
+  {% if products %}
+  <div class="row g-4">
+    {% for product in products %}
+    <div class="col-6 col-md-4 col-lg-3">
+      <div class="card h-100">
+        <a href="{% url 'store:product_detail' product.slug %}">
+          {% if product.image %}
+          <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}" style="height: 200px; object-fit: cover;">
+          {% else %}
+          <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
+            <span class="fs-1">📦</span>
+          </div>
+          {% endif %}
+        </a>
+        <div class="card-body">
+          <h5 class="card-title h6">
+            <a href="{% url 'store:product_detail' product.slug %}" class="text-decoration-none text-dark">
+              {{ product.name|truncatewords:5 }}
+            </a>
+          </h5>
+          <p class="text-muted small mb-2">
+            <a href="{% url 'shops:shop_detail' product.shop.slug %}" class="text-decoration-none">
+              {{ product.shop.name }}
+            </a>
+          </p>
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <span class="fw-bold text-primary">Price: {{ product.price }}</span>
+            {% if product.in_stock %}
+            <span class="badge bg-success">In Stock</span>
+            {% else %}
+            <span class="badge bg-danger">Out of Stock</span>
+            {% endif %}
+          </div>
+          {# Wrapped button in form with action to cart_add view #}
+          <form method="post" action="{% url 'store:cart_add' product.id %}">
+            {% csrf_token %}
+            <input type="hidden" name="qty" value="1">
+            <button type="submit" class="btn btn-primary btn-sm w-100" {% if not product.in_stock %}disabled{% endif %}>
+              Add to Cart
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="alert alert-info">
+    <h4 class="alert-heading">No products found</h4>
+    <p class="mb-0">Try adjusting your search or filter criteria.</p>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

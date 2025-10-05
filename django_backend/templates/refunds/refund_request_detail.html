@@ -1,0 +1,158 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Refund Request {{ refund_request.request_number }} - Karupatti Shop{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2>Refund Request Details</h2>
+                <a href="{% url 'refunds:refund_request_list' %}" class="btn btn-outline-secondary">
+                    <i class="bi bi-arrow-left"></i> Back
+                </a>
+            </div>
+            
+             Status Card 
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5>Request #{{ refund_request.request_number }}</h5>
+                            <p class="text-muted mb-0">Submitted: {{ refund_request.created_at|date:"M d, Y H:i" }}</p>
+                        </div>
+                        <div class="col-md-6 text-md-end">
+                            <h4>
+                                {% if refund_request.status == 'pending' %}
+                                <span class="badge bg-warning">Pending Review</span>
+                                {% elif refund_request.status == 'approved' %}
+                                <span class="badge bg-success">Approved</span>
+                                {% elif refund_request.status == 'rejected' %}
+                                <span class="badge bg-danger">Rejected</span>
+                                {% elif refund_request.status == 'completed' %}
+                                <span class="badge bg-primary">Completed</span>
+                                {% elif refund_request.status == 'cancelled' %}
+                                <span class="badge bg-secondary">Cancelled</span>
+                                {% else %}
+                                <span class="badge bg-info">{{ refund_request.get_status_display }}</span>
+                                {% endif %}
+                            </h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+             Request Details 
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">Request Details</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-md-4"><strong>Order Number:</strong></div>
+                        <div class="col-md-8">
+                            <a href="{% url 'orders:order_detail' refund_request.order.order_number %}">
+                                {{ refund_request.order.order_number }}
+                            </a>
+                        </div>
+                    </div>
+                    
+                    {% if refund_request.order_item %}
+                    <div class="row mb-3">
+                        <div class="col-md-4"><strong>Product:</strong></div>
+                        <div class="col-md-8">{{ refund_request.order_item.product_name }}</div>
+                    </div>
+                    {% endif %}
+                    
+                    <div class="row mb-3">
+                        <div class="col-md-4"><strong>Refund Amount:</strong></div>
+                        <div class="col-md-8 text-primary"><strong>${{ refund_request.refund_amount }}</strong></div>
+                    </div>
+                    
+                    <div class="row mb-3">
+                        <div class="col-md-4"><strong>Reason:</strong></div>
+                        <div class="col-md-8">{{ refund_request.get_reason_display }}</div>
+                    </div>
+                    
+                    <div class="row mb-3">
+                        <div class="col-md-4"><strong>Description:</strong></div>
+                        <div class="col-md-8">{{ refund_request.description }}</div>
+                    </div>
+                    
+                    {% if refund_request.images %}
+                    <div class="row mb-3">
+                        <div class="col-md-4"><strong>Attached Image:</strong></div>
+                        <div class="col-md-8">
+                            <img src="{{ refund_request.images.url }}" alt="Refund evidence" 
+                                 class="img-fluid rounded" style="max-width: 300px;">
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            
+             Admin Response 
+            {% if refund_request.admin_notes %}
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">Admin Response</h5>
+                </div>
+                <div class="card-body">
+                    <p>{{ refund_request.admin_notes }}</p>
+                    {% if refund_request.processed_at %}
+                    <p class="text-muted mb-0">
+                        <small>Processed: {{ refund_request.processed_at|date:"M d, Y H:i" }}</small>
+                    </p>
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
+            
+             Refund Details (if approved) 
+            {% if refund_request.status == 'approved' and refund_request.refund %}
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">Refund Details</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-2">
+                        <div class="col-md-4"><strong>Refund Number:</strong></div>
+                        <div class="col-md-8">{{ refund_request.refund.refund_number }}</div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-md-4"><strong>Method:</strong></div>
+                        <div class="col-md-8">{{ refund_request.refund.get_refund_method_display }}</div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-md-4"><strong>Status:</strong></div>
+                        <div class="col-md-8">
+                            <span class="badge bg-info">{{ refund_request.refund.get_status_display }}</span>
+                        </div>
+                    </div>
+                    {% if refund_request.refund.transaction_id %}
+                    <div class="row mb-2">
+                        <div class="col-md-4"><strong>Transaction ID:</strong></div>
+                        <div class="col-md-8">{{ refund_request.refund.transaction_id }}</div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
+            
+             Actions 
+            {% if refund_request.status == 'pending' %}
+            <div class="card">
+                <div class="card-body">
+                    <form method="post" action="{% url 'refunds:cancel_refund_request' refund_request.request_number %}"
+                          onsubmit="return confirm('Are you sure you want to cancel this refund request?')">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">Cancel Request</button>
+                    </form>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="container">
+  <div class="grid" style="grid-template-columns:1fr 1fr; gap: 2rem;">
+    <div>
+      <img src="{{ product.image|default:'/static/img/placeholder.jpg' }}" alt="{{ product.name }}" width="600" height="480" />
+    </div>
+    <div>
+      <h1 class="section-title">{{ product.name }}</h1>
+      <p class="price" style="font-size:1.25rem">$ {{ product.price }}</p>
+      <p style="color:var(--color-muted)">{{ product.description }}</p>
+      <div style="margin-top:1rem">
+        <a class="btn btn-primary" href="{% url 'add_to_cart' slug=product.slug %}">Add to cart</a>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

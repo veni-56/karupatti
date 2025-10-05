@@ -1,0 +1,489 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{% block title %}Karupatti Shop{% endblock %}</title>
+    <meta name="description" content="Multi-vendor e-commerce platform" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    {% load static %}
+    <link href="{% static 'css/bootstrap_overrides.css' %}" rel="stylesheet">
+    <link href="{% static 'css/styles.css' %}" rel="stylesheet">
+    <style>
+      /* Updated color scheme to dark blue navbar/footer with creative animations */
+      :root {
+        --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        --dark-blue: #1e3a8a;
+        --success-gradient: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+      }
+      
+      /* Smooth animations for all elements */
+      * {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      
+      body {
+        background: white;
+        min-height: 100vh;
+        color: #333;
+        animation: fadeIn 0.5s ease-in;
+      }
+      
+      @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
+      
+      @keyframes slideDown {
+        from {
+          opacity: 0;
+          transform: translateY(-20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      
+      @keyframes slideUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      
+      @keyframes scaleIn {
+        from {
+          opacity: 0;
+          transform: scale(0.9);
+        }
+        to {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+      
+      /* Dark blue navbar with white text */
+      .site-header {
+        background: var(--dark-blue) !important;
+        box-shadow: 0 4px 20px rgba(30, 58, 138, 0.3);
+        animation: slideDown 0.5s ease-out;
+      }
+      
+      .navbar-brand {
+        font-size: 1.8rem;
+        font-weight: 800;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        color: white !important;
+      }
+      
+      .nav-link {
+        font-weight: 500;
+        color: white !important;
+        position: relative;
+        overflow: hidden;
+      }
+      
+      .nav-link::before {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: white;
+        transition: width 0.3s ease;
+      }
+      
+      .nav-link:hover::before {
+        width: 100%;
+      }
+      
+      .nav-link:hover {
+        transform: translateY(-2px);
+        text-shadow: 0 2px 8px rgba(255,255,255,0.5);
+      }
+      
+      .card {
+        background: rgba(255, 255, 255, 0.95);
+        border: none;
+        border-radius: 15px;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        color: #333;
+        animation: scaleIn 0.5s ease-out;
+        overflow: hidden;
+      }
+      
+      .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 40px rgba(0,0,0,0.2);
+      }
+      
+      .btn-primary {
+        background: var(--primary-gradient);
+        border: none;
+        font-weight: 600;
+        padding: 10px 30px;
+        border-radius: 25px;
+        position: relative;
+        overflow: hidden;
+      }
+      
+      .btn-primary::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.3);
+        transform: translate(-50%, -50%);
+        transition: width 0.6s, height 0.6s;
+      }
+      
+      .btn-primary:hover::before {
+        width: 300px;
+        height: 300px;
+      }
+      
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+      }
+      
+      .btn-success {
+        background: var(--success-gradient);
+        border: none;
+        font-weight: 600;
+        border-radius: 25px;
+      }
+      
+      .btn-success:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(17, 153, 142, 0.4);
+      }
+      
+      .btn-danger {
+        background: var(--secondary-gradient);
+        border: none;
+        font-weight: 600;
+        border-radius: 25px;
+      }
+      
+      .btn-danger:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(240, 147, 251, 0.4);
+      }
+      
+      /* Dark blue footer with white text */
+      .site-footer {
+        background: var(--dark-blue) !important;
+        color: white;
+        animation: slideUp 0.5s ease-out;
+      }
+      
+      .site-footer a {
+        transition: all 0.3s ease;
+      }
+      
+      .site-footer a:hover {
+        transform: translateX(5px);
+        color: #93c5fd !important;
+      }
+      
+      .hero-section {
+        background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        padding: 60px 20px;
+        margin: 40px 0;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        animation: slideUp 0.6s ease-out;
+      }
+      
+      .product-card {
+        background: white;
+        border-radius: 15px;
+        overflow: hidden;
+        animation: scaleIn 0.5s ease-out;
+      }
+      
+      .product-card img {
+        transition: transform 0.5s ease;
+      }
+      
+      .product-card:hover img {
+        transform: scale(1.1);
+      }
+      
+      .product-card:hover {
+        transform: translateY(-10px) rotate(1deg);
+        box-shadow: 0 12px 40px rgba(0,0,0,0.2);
+      }
+      
+      .category-badge {
+        background: var(--primary-gradient);
+        color: white;
+        padding: 8px 20px;
+        border-radius: 20px;
+        display: inline-block;
+        font-weight: 600;
+        margin: 5px;
+        animation: scaleIn 0.4s ease-out;
+      }
+      
+      .category-badge:hover {
+        transform: scale(1.1) rotate(-2deg);
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+      }
+      
+      .alert {
+        border-radius: 15px;
+        border: none;
+        font-weight: 500;
+        animation: slideDown 0.4s ease-out;
+      }
+      
+      .badge {
+        font-weight: 600;
+        padding: 5px 10px;
+        animation: scaleIn 0.3s ease-out;
+      }
+      
+      #main-content {
+        min-height: calc(100vh - 400px);
+        animation: fadeIn 0.6s ease-in;
+      }
+      
+      .text-white-custom {
+        color: white !important;
+        text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+      }
+      
+      .container-custom {
+        border-radius: 20px;
+        padding: 30px;
+        margin: 20px auto;
+      }
+      
+      /* Form styling */
+      .form-control, .form-select {
+        border-radius: 10px;
+        border: 2px solid #e5e7eb;
+        padding: 12px;
+      }
+      
+      .form-control:focus, .form-select:focus {
+        border-color: #667eea;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        transform: translateY(-2px);
+      }
+      
+      /* Table styling */
+      .table {
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      }
+      
+      .table thead {
+        background: var(--primary-gradient);
+        color: white;
+      }
+      
+      .table tbody tr {
+        transition: all 0.3s ease;
+      }
+      
+      .table tbody tr:hover {
+        background: rgba(102, 126, 234, 0.05);
+        transform: scale(1.01);
+      }
+      
+      /* Dropdown menu animation */
+      .dropdown-menu {
+        border-radius: 15px;
+        border: none;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+        animation: slideDown 0.3s ease-out;
+      }
+      
+      .dropdown-item {
+        border-radius: 10px;
+        margin: 5px;
+      }
+      
+      .dropdown-item:hover {
+        background: var(--primary-gradient);
+        color: white;
+        transform: translateX(5px);
+      }
+      
+      /* Image hover effects */
+      img {
+        transition: transform 0.5s ease, filter 0.3s ease;
+        max-width: 100%;
+        height: auto;
+      }
+      
+      img:hover {
+        transform: scale(1.05);
+        filter: brightness(1.1);
+      }
+      
+      /* Mobile responsiveness */
+      @media (max-width: 575.98px) {
+        /* Reduce large paddings for mobile */
+        .hero-section { padding: 32px 16px; }
+        .container-custom { padding: 16px; }
+
+        /* Make long tables scroll horizontally on small screens without editing each template */
+        .table {
+          display: block;
+          width: 100%;
+          overflow-x: auto;
+          -webkit-overflow-scrolling: touch;
+          white-space: nowrap;
+        }
+
+        /* Buttons and form controls get comfortable full width in stacked layouts */
+        .btn.w-100-sm { width: 100%; }
+      }
+      /* end mobile tweaks */
+    </style>
+  </head>
+  <body>
+    <header class="site-header text-white shadow-sm">
+      <nav class="navbar navbar-expand-lg navbar-dark container">
+        <div class="container-fluid px-0">
+          <a class="navbar-brand text-white h4 mb-0 fw-bold" href="{% url 'store:home' %}">🛒 Karupatti Shop</a>
+
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <div class="collapse navbar-collapse" id="mainNav">
+            <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
+              <li class="nav-item"><a class="nav-link" href="{% url 'store:home' %}">Home</a></li>
+              <li class="nav-item"><a class="nav-link" href="{% url 'store:product_list' %}">Products</a></li>
+              <li class="nav-item"><a class="nav-link" href="{% url 'shops:shop_list' %}">Shops</a></li>
+              <li class="nav-item"><a class="nav-link" href="{% url 'promotions:event_list' %}">Events</a></li>
+              <li class="nav-item"><a class="nav-link" href="{% url 'store:about' %}">About</a></li>
+              <li class="nav-item"><a class="nav-link" href="{% url 'store:contact' %}">Contact</a></li>
+
+              {% if user.is_authenticated %}
+                <li class="nav-item">
+                  <a class="nav-link position-relative" href="{% url 'wishlist:wishlist' %}">
+                    ❤️ <span class="badge bg-danger ms-1">{{ wishlist_count|default:0 }}</span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link position-relative" href="{% url 'chat:conversation_list' %}">
+                    💬 <span class="badge bg-info ms-1">{{ unread_messages_count|default:0 }}</span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link position-relative" href="{% url 'store:cart' %}">
+                    🛒 <span class="badge bg-success ms-1">{{ cart_count|default:0 }}</span>
+                  </a>
+                </li>
+
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    {{ user.username }}
+                  </a>
+                  <ul class="dropdown-menu dropdown-menu-end">
+                    <li><a class="dropdown-item" href="{% url 'accounts:dashboard' %}">Dashboard</a></li>
+                    <li><a class="dropdown-item" href="{% url 'accounts:profile' %}">Profile</a></li>
+                    <li><a class="dropdown-item" href="{% url 'orders:order_list' %}">My Orders</a></li>
+                    {% if user.role == 'seller' %}
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="{% url 'sellers:dashboard' %}">Seller Dashboard</a></li>
+                    {% endif %}
+                    {% if user.is_staff %}
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="{% url 'dashboard:admin_dashboard' %}">Admin Dashboard</a></li>
+                    {% endif %}
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="{% url 'accounts:logout' %}">Logout</a></li>
+                  </ul>
+                </li>
+              {% else %}
+                <li class="nav-item"><a class="nav-link" href="{% url 'accounts:login' %}">Login</a></li>
+                <li class="nav-item">
+                  <a class="nav-link btn btn-light text-primary px-3 ms-lg-2 w-100-sm" href="{% url 'accounts:register' %}">Register</a>
+                </li>
+              {% endif %}
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main id="main-content">
+      {% if messages %}
+        <div class="container mt-3">
+          {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+              {{ message }}
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+      
+      {% block content %}{% endblock %}
+    </main>
+
+    <footer class="site-footer text-white py-5 mt-5">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4 mb-4 mb-md-0">
+            <h5 class="mb-3 fw-bold">🛒 Karupatti Shop</h5>
+            <p class="text-white-50">Your trusted multi-vendor marketplace for authentic products.</p>
+          </div>
+          <div class="col-md-2 mb-4 mb-md-0">
+            <h6 class="mb-3 fw-bold">Quick Links</h6>
+            <ul class="list-unstyled">
+              <li><a href="{% url 'store:home' %}" class="text-white-50 text-decoration-none">Home</a></li>
+              <li><a href="{% url 'store:product_list' %}" class="text-white-50 text-decoration-none">Products</a></li>
+              <li><a href="{% url 'shops:shop_list' %}" class="text-white-50 text-decoration-none">Shops</a></li>
+              <li><a href="{% url 'store:about' %}" class="text-white-50 text-decoration-none">About</a></li>
+            </ul>
+          </div>
+          <div class="col-md-3 mb-4 mb-md-0">
+            <h6 class="mb-3 fw-bold">For Sellers</h6>
+            <ul class="list-unstyled">
+              <li><a href="{% url 'accounts:register' %}" class="text-white-50 text-decoration-none">Become a Seller</a></li>
+              <li><a href="{% url 'sellers:dashboard' %}" class="text-white-50 text-decoration-none">Seller Dashboard</a></li>
+            </ul>
+          </div>
+          <div class="col-md-3">
+            <h6 class="mb-3 fw-bold">Support</h6>
+            <ul class="list-unstyled">
+              <li><a href="{% url 'store:contact' %}" class="text-white-50 text-decoration-none">Contact Us</a></li>
+              <li><a href="#" class="text-white-50 text-decoration-none">Help Center</a></li>
+              <li><a href="#" class="text-white-50 text-decoration-none">Terms of Service</a></li>
+              <li><a href="#" class="text-white-50 text-decoration-none">Privacy Policy</a></li>
+            </ul>
+          </div>
+        </div>
+        <hr class="my-4 bg-white opacity-25">
+        <div class="text-center">
+          <p class="mb-0 text-white-50">&copy; <span id="year"></span> Karupatti Shop. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+  </body>
+</html>

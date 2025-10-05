@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="container">
+  <h1 class="section-title">Events & Offers</h1>
+  <div class="grid">
+    {% for e in events %}
+    <article class="card">
+      <div class="card-body">
+        <h3 class="card-title">{{ e.title }}</h3>
+        <p style="color:var(--color-muted)">{{ e.description }}</p>
+        <p>From {{ e.starts_at }} to {{ e.ends_at }}</p>
+      </div>
+    </article>
+    {% empty %}
+    <p>No active events right now.</p>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+
+{% block title %}Manage Product Images - Karupatti Shop{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+  <div class="row mb-4">
+    <div class="col">
+      <h1 class="display-5 fw-bold">🖼️ Manage Images</h1>
+      <p class="lead text-muted">Product: {{ product.name }}</p>
+    </div>
+    <div class="col-auto">
+      <a href="{% url 'sellers:product_update' product.slug %}" class="btn btn-secondary">← Back to Product</a>
+    </div>
+  </div>
+
+  <div class="row">
+     Add New Image 
+    <div class="col-md-4 mb-4">
+      <div class="card h-100">
+        <div class="card-body">
+          <h5 class="card-title fw-bold mb-4">➕ Add New Image</h5>
+          <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            <div class="mb-3">
+              <label for="{{ form.image.id_for_label }}" class="form-label fw-bold">Image *</label>
+              {{ form.image }}
+              {% if form.image.errors %}
+                <div class="text-danger mt-1">{{ form.image.errors }}</div>
+              {% endif %}
+            </div>
+            
+            <div class="mb-3">
+              <label for="{{ form.alt_text.id_for_label }}" class="form-label fw-bold">Alt Text</label>
+              {{ form.alt_text }}
+              {% if form.alt_text.errors %}
+                <div class="text-danger mt-1">{{ form.alt_text.errors }}</div>
+              {% endif %}
+            </div>
+            
+            <div class="mb-3">
+              <div class="form-check">
+                {{ form.is_primary }}
+                <label class="form-check-label fw-bold" for="{{ form.is_primary.id_for_label }}">
+                  Set as Primary Image
+                </label>
+              </div>
+            </div>
+            
+            <button type="submit" class="btn btn-primary w-100">💾 Upload Image</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+     Existing Images 
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title fw-bold mb-4">📸 Product Images</h5>
+          {% if images %}
+            <div class="row g-3">
+              {% for image in images %}
+                <div class="col-md-6">
+                  <div class="card">
+                    <img src="{{ image.image.url }}" alt="{{ image.alt_text }}" class="card-img-top" style="height: 200px; object-fit: cover;">
+                    <div class="card-body">
+                      {% if image.is_primary %}
+                        <span class="badge bg-success mb-2">⭐ Primary</span>
+                      {% endif %}
+                      <p class="card-text small text-muted">{{ image.alt_text|default:"No description" }}</p>
+                      <form method="post" action="{% url 'sellers:delete_product_image' image.id %}" class="d-inline">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Delete this image?')">🗑️ Delete</button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
+          {% else %}
+            <p class="text-muted text-center py-5">No additional images yet. Upload your first image!</p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

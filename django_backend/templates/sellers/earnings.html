@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Earnings - Seller Dashboard{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+    <h2 class="mb-4">Earnings & Wallet</h2>
+    
+     Wallet Summary 
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <div class="card text-white bg-success">
+                <div class="card-body">
+                    <h5 class="card-title">Available Balance</h5>
+                    <h2 class="mb-0">${{ wallet.balance }}</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-white bg-primary">
+                <div class="card-body">
+                    <h5 class="card-title">Total Earned</h5>
+                    <h2 class="mb-0">${{ wallet.total_earned }}</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-white bg-info">
+                <div class="card-body">
+                    <h5 class="card-title">This Month</h5>
+                    <h2 class="mb-0">${{ month_earnings }}</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+     Earnings History 
+    <div class="card">
+        <div class="card-header">
+            <h5 class="mb-0">Earnings History</h5>
+        </div>
+        <div class="card-body">
+            {% if earnings %}
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Order #</th>
+                            <th>Amount</th>
+                            <th>Platform Fee</th>
+                            <th>Net Earning</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for earning in earnings %}
+                        <tr>
+                            <td>{{ earning.created_at|date:"M d, Y H:i" }}</td>
+                            <td>{{ earning.order_id }}</td>
+                            <td>${{ earning.amount|add:earning.platform_fee }}</td>
+                            <td class="text-danger">-${{ earning.platform_fee }}</td>
+                            <td class="text-success"><strong>${{ earning.amount }}</strong></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <p class="text-muted text-center py-4">No earnings yet</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

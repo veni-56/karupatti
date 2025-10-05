@@ -1,0 +1,15 @@
+{% extends "store/base.html" %}
+{% block content %}
+<h1 class="h4">Order #{{ order.id }}</h1>
+<p>Status: <strong>{{ order.status }}</strong></p>
+<p>Total: <strong>₹ {{ order.total }}</strong></p>
+<h2 class="h6 mt-4">Items</h2>
+<ul class="list-group">
+  {% for it in order.items.all %}
+    <li class="list-group-item d-flex justify-content-between">
+      <span>{{ it.product.name }} × {{ it.quantity }}</span>
+      <span>₹ {{ it.line_total }}</span>
+    </li>
+  {% endfor %}
+</ul>
+{% endblock %}

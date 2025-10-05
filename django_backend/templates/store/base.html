@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Karupatti Shop</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+      <a class="navbar-brand fw-bold" href="{% url 'store:home' %}">Karupatti Shop</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div id="nav" class="collapse navbar-collapse">
+        <ul class="navbar-nav me-auto">
+          <!-- Fixed URL from products_list to product_list -->
+          <li class="nav-item"><a class="nav-link" href="{% url 'store:product_list' %}">Products</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url 'store:cart' %}">Cart</a></li>
+        </ul>
+        <ul class="navbar-nav">
+          {% if user.is_authenticated %}
+            <!-- Fixed URL from store:orders to orders:order_list -->
+            <li class="nav-item"><a class="nav-link" href="{% url 'orders:order_list' %}">My Orders</a></li>
+            <!-- Fixed URL from logout to accounts:logout -->
+            <li class="nav-item"><a class="nav-link" href="{% url 'accounts:logout' %}">Logout</a></li>
+            <!-- Fixed URL from store:seller_dashboard to sellers:dashboard -->
+            <li class="nav-item"><a class="nav-link" href="{% url 'sellers:dashboard' %}">Seller</a></li>
+          {% else %}
+            <!-- Fixed URL from login to accounts:login -->
+            <li class="nav-item"><a class="nav-link" href="{% url 'accounts:login' %}">Login</a></li>
+            <!-- Fixed URL from store:signup to accounts:register -->
+            <li class="nav-item"><a class="nav-link" href="{% url 'accounts:register' %}">Sign Up</a></li>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <main class="container py-4">{% block content %}{% endblock %}</main>
+  <footer class="border-top mt-5 py-3">
+    <div class="container text-center text-muted small">
+      © {% now "Y" %} Karupatti Shop
+    </div>
+  </footer>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

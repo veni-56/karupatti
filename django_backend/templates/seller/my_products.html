@@ -1,0 +1,29 @@
+{% extends "seller/base_seller.html" %}
+{% block seller_content %}
+<div class="card">
+  <div class="card-body">
+    {% if products %}
+      <div class="table-responsive">
+        <table class="table table-sm">
+          <thead><tr><th>Name</th><th>Price</th><th>Stock</th><th>Created</th><th></th></tr></thead>
+          <tbody>
+          {% for p in products %}
+            <tr>
+              <td>{{ p.name }}</td>
+              <td>₹ {{ p.price }}</td>
+              <td>{{ p.stock }}</td>
+              <td>{{ p.created_at|date:"Y-m-d H:i" }}</td>
+              <td>
+                <a class="btn btn-sm btn-outline-primary" href="{% url 'store:product-edit' p.pk %}">Edit</a>
+              </td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% else %}
+      <p class="text-muted mb-0">No products yet.</p>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

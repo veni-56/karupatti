@@ -1,0 +1,42 @@
+{% extends "store/base.html" %}
+{% block content %}
+<h1 class="h4 mb-3">Your Cart</h1>
+<form method="post" action="{% url 'store:apply_coupon' %}" class="mb-3 d-flex gap-2">
+  {% csrf_token %}
+  <input name="code" class="form-control" placeholder="Coupon code" />
+  <button class="btn btn-outline-secondary">Apply Coupon</button>
+</form>
+<div class="table-responsive">
+  <table class="table align-middle">
+    <thead><tr><th>Product</th><th>Qty</th><th>Line Total</th><th></th></tr></thead>
+    <tbody>
+      {% for row in items %}
+        <tr>
+          <td>{{ row.product.name }}</td>
+          <td style="width:140px">
+            <form method="post" action="{% url 'store:cart_update' row.product.id %}" class="d-flex gap-2">
+              {% csrf_token %}
+              <input type="number" min="1" class="form-control form-control-sm" name="qty" value="{{ row.qty }}" />
+              <button class="btn btn-sm btn-outline-primary">Update</button>
+            </form>
+          </td>
+          <td>₹ {{ row.line_total }}</td>
+          <td><a class="btn btn-sm btn-outline-danger" href="{% url 'store:cart_remove' row.product.id %}">Remove</a></td>
+        </tr>
+      {% empty %}
+        <tr><td colspan="4"><div class="alert alert-info mb-0">Your cart is empty.</div></td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+<div class="d-flex justify-content-end">
+  <div class="card" style="min-width:320px">
+    <div class="card-body">
+      <div class="d-flex justify-content-between"><span>Subtotal</span><strong>₹ {{ subtotal }}</strong></div>
+      <div class="d-flex justify-content-between"><span>Discount</span><strong>₹ {{ discount }}</strong></div>
+      <div class="d-flex justify-content-between border-top pt-2"><span>Total</span><strong>₹ {{ total }}</strong></div>
+      <a href="{% url 'store:checkout' %}" class="btn btn-success w-100 mt-3 {% if not items %}disabled{% endif %}">Proceed to Checkout</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

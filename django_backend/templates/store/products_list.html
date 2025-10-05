@@ -1,0 +1,22 @@
+{% extends "store/base.html" %}
+{% block content %}
+<h1 class="h4 mb-3">Products</h1>
+<div class="row g-3">
+  {% for p in products %}
+    <div class="col-12 col-sm-6 col-lg-4">
+      <div class="card h-100">
+        <img src="{{ p.image|default:'/placeholder.svg?height=200&width=300' }}" class="card-img-top" alt="{{ p.name }}">
+        <div class="card-body">
+          <h3 class="h6 card-title">{{ p.name }}</h3>
+          <div class="d-flex align-items-center justify-content-between">
+            <span class="fw-semibold">₹ {{ p.price }}</span>
+            <a class="btn btn-outline-primary btn-sm" href="{% url 'store:product_detail' p.slug %}">Details</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% empty %}
+    <div class="col-12"><div class="alert alert-info">No products found.</div></div>
+  {% endfor %}
+</div>
+{% endblock %}

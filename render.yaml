@@ -1,0 +1,41 @@
+services:
+  - type: web
+    name: karupatti-shop
+    env: docker
+    plan: starter
+    autoDeploy: true
+    # Render will build using the Dockerfile at repo root.
+    # Working directory is defined by Dockerfile (django_backend).
+    envVars:
+      - key: PYTHONUNBUFFERED
+        value: "1"
+      - key: DJANGO_SETTINGS_MODULE
+        value: "karupatti_shop.settings"
+      # Configure SITE_URL to your Render URL after first deploy (e.g., https://karupatti-shop.onrender.com)
+      - key: SITE_URL
+        value: "https://karupatti-shop.onrender.com"
+      # Set DEBUG=false in production
+      - key: DEBUG
+        value: "false"
+      # Set a strong secret in the Render dashboard
+      - key: SECRET_KEY
+        generateValue: true
+      # Optional: platform fee percent for payouts
+      - key: PLATFORM_FEE_PERCENT
+        value: "10"
+      # Stripe keys should be set in the Render dashboard
+      - key: STRIPE_PUBLISHABLE_KEY
+        sync: false
+      - key: STRIPE_SECRET_KEY
+        sync: false
+      - key: STRIPE_WEBHOOK_SECRET
+        sync: false
+    buildFilter:
+      paths:
+        - Dockerfile
+        - requirements.txt
+        - django_backend/**
+    # Run DB migrations and collectstatic after deploy
+    postDeployCommand: |
+      python manage.py migrate --noinput && \
+      python manage.py collectstatic --noinput

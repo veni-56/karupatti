@@ -1,0 +1,28 @@
+{% extends "bootstrap_base.html" %}
+{% block title %}Sign up · Karupatti Shop{% endblock %}
+{% block content %}
+<div class="container py-5" style="max-width: 480px;">
+  <h1 class="h3 mb-4">Create your account</h1>
+  <form method="post" class="vstack gap-3">
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+    <div>
+      <label class="form-label" for="{{ form.username.id_for_label }}">Username</label>
+      {{ form.username }}
+      {% if form.username.errors %}<div class="text-danger small mt-1">{{ form.username.errors }}</div>{% endif %}
+    </div>
+    <div>
+      <label class="form-label" for="{{ form.password1.id_for_label }}">Password</label>
+      {{ form.password1 }}
+      {% if form.password1.errors %}<div class="text-danger small mt-1">{{ form.password1.errors }}</div>{% endif %}
+    </div>
+    <div>
+      <label class="form-label" for="{{ form.password2.id_for_label }}">Confirm password</label>
+      {{ form.password2 }}
+      {% if form.password2.errors %}<div class="text-danger small mt-1">{{ form.password2.errors }}</div>{% endif %}
+    </div>
+    <button class="btn btn-primary w-100 mt-3" type="submit">Create account</button>
+    <p class="text-muted small mt-3">Already have an account? <a href="{% url 'login' %}">Sign in</a></p>
+  </form>
+</div>
+{% endblock %}

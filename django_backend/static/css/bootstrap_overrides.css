@@ -1,0 +1,17 @@
+/* Karupatti Shop theme: primary brown, neutrals */
+:root {
+  --bs-primary: #7a4e2d; /* primary brand (karupatti brown) */
+  --bs-secondary: #607d8b; /* cool neutral accent */
+  --bs-success: #2e7d32; /* accent */
+  --bs-body-bg: #f8f9fa; /* light background */
+  --bs-body-color: #212529; /* foreground */
+}
+.navbar.bg-primary {
+  background-color: var(--bs-primary) !important;
+}
+.btn-primary {
+  --bs-btn-bg: var(--bs-primary);
+  --bs-btn-border-color: var(--bs-primary);
+  --bs-btn-hover-bg: #6b4328;
+  --bs-btn-hover-border-color: #6b4328;
+}

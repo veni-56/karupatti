@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block title %}My Addresses - Karupatti Shop{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+  <div class="row">
+    <div class="col-12">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold">📍 My Addresses</h2>
+        <a href="{% url 'accounts:address_create' %}" class="btn btn-primary">
+          ➕ Add New Address
+        </a>
+      </div>
+      
+      {% if addresses %}
+        <div class="row">
+          {% for address in addresses %}
+            <div class="col-md-6 mb-4">
+              <div class="card shadow-sm h-100">
+                <div class="card-body">
+                  {% if address.is_default %}
+                    <span class="badge bg-success mb-2">Default Address</span>
+                  {% endif %}
+                  <h5 class="card-title fw-bold">{{ address.full_name }}</h5>
+                  <p class="card-text mb-1">{{ address.street_address }}</p>
+                  <p class="card-text mb-1">{{ address.city }}, {{ address.state }} {{ address.postal_code }}</p>
+                  <p class="card-text mb-3">{{ address.country }}</p>
+                  <p class="card-text text-muted">📞 {{ address.phone }}</p>
+                  
+                  <div class="d-flex gap-2">
+                    <a href="{% url 'accounts:address_edit' address.pk %}" class="btn btn-sm btn-outline-primary">
+                      ✏️ Edit
+                    </a>
+                    <a href="{% url 'accounts:address_delete' address.pk %}" class="btn btn-sm btn-outline-danger">
+                      🗑️ Delete
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <div class="card shadow-sm">
+          <div class="card-body text-center py-5">
+            <h4 class="text-muted mb-3">No addresses found</h4>
+            <p class="text-muted mb-4">Add your first shipping address to make checkout faster.</p>
+            <a href="{% url 'accounts:address_create' %}" class="btn btn-primary">
+              ➕ Add Your First Address
+            </a>
+          </div>
+        </div>
+      {% endif %}
+      
+      <div class="mt-4">
+        <a href="{% url 'accounts:profile' %}" class="btn btn-secondary">
+          ← Back to Profile
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

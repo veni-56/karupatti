@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}All Shops - Karupatti Shop{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">All Shops</h1>
+
+<div class="row">
+    {% for shop in shops %}
+    <div class="col-md-4 mb-4">
+        <div class="card h-100">
+            {% if shop.logo %}
+            <img src="{{ shop.logo.url }}" class="card-img-top" alt="{{ shop.name }}" style="height: 200px; object-fit: cover;">
+            {% endif %}
+            <div class="card-body">
+                <h5 class="card-title">{{ shop.name }}</h5>
+                <p class="card-text">{{ shop.description|truncatewords:15 }}</p>
+                <a href="{% url 'shops:shop_detail' shop.slug %}" class="btn btn-primary">Visit Shop</a>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="col-md-12">
+        <p class="text-muted">No shops available yet.</p>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends "bootstrap_base.html" %}
+{% block title %}Karupatti Shop - Home{% endblock %}
+{% block content %}
+    
+  <section class="p-4 p-md-5 mb-4 bg-white rounded-3 shadow-sm">
+    <div class="container-fluid py-2">
+      <h1 class="display-6 fw-bold text-balance">Welcome to Karupatti Shop</h1>
+      <p class="col-md-8 fs-6 text-muted">Authentic, wholesome products — browse our latest arrivals.</p>
+      <a href="{% url 'store_bootstrap:products' %}" class="btn btn-primary btn-sm">Shop all products</a>
+    </div>
+  </section>
+
+  <h2 class="h5 mb-3">Latest Products</h2>
+  <div class="row g-3">
+    {% for p in products %}
+      <div class="col-6 col-md-4 col-lg-3">
+        <div class="card h-100">
+          <img src="{{ p.image.url|default:'/placeholder.svg?height=160&width=240' }}" class="card-img-top" alt="{{ p.name }}">
+          <div class="card-body d-flex flex-column">
+            <h3 class="h6 card-title text-pretty">{{ p.name }}</h3>
+            <p class="text-muted small mb-2">₹ {{ p.price }}</p>
+            <div class="mt-auto d-grid gap-2">
+              <a href="{% url 'store_bootstrap:product_detail' p.pk %}" class="btn btn-outline-secondary btn-sm">View</a>
+              <form method="post" action="{% url 'store_bootstrap:add_to_cart' p.pk %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-primary btn-sm">Add to cart</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% empty %}
+      <div class="col-12"><div class="alert alert-info">No products yet.</div></div>
+    {% endfor %}
+  </div>
+{% endblock %}

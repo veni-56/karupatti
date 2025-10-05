@@ -1,0 +1,15 @@
+{% extends "store/base.html" %}
+{% block content %}
+<h1 class="h4 mb-3">Checkout</h1>
+<div class="card">
+  <div class="card-body">
+    <div class="d-flex justify-content-between"><span>Subtotal</span><strong>₹ {{ subtotal }}</strong></div>
+    <div class="d-flex justify-content-between"><span>Discount</span><strong>₹ {{ discount }}</strong></div>
+    <div class="d-flex justify-content-between border-top pt-2"><span>Total</span><strong>₹ {{ total }}</strong></div>
+  </div>
+</div>
+<form method="post" class="mt-3">
+  {% csrf_token %}
+  <button class="btn btn-primary">Place Order</button>
+</form>
+{% endblock %}

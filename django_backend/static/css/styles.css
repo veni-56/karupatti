@@ -1,0 +1,178 @@
+/* Color system: 1 primary, 2 neutrals, 1 accent (total 4-5 colors) */
+:root {
+  --color-primary: #6b4f2a; /* deep palm-jaggery brown */
+  --color-bg: #f8f5f1; /* warm off-white */
+  --color-text: #111111; /* near-black */
+  --color-muted: #666666; /* gray */
+  --color-accent: #c68642; /* golden brown accent */
+  --radius: 0.5rem;
+}
+
+* {
+  box-sizing: border-box;
+}
+html,
+body {
+  padding: 0;
+  margin: 0;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  line-height: 1.55;
+}
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.site-header {
+  background: #fff;
+  border-bottom: 1px solid #eaeaea;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+}
+.brand {
+  color: var(--color-primary);
+  text-decoration: none;
+  font-weight: 800;
+  font-size: 1.25rem;
+  letter-spacing: .2px;
+}
+.nav-links {
+  display: flex;
+  gap: .75rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.nav-links a {
+  color: var(--color-text);
+  text-decoration: none;
+  padding: .5rem .75rem;
+  border-radius: var(--radius);
+}
+.nav-links a:hover {
+  background: #f1ebe4;
+}
+
+.hero {
+  background: linear-gradient(0deg, #fff, #fff), var(--color-bg);
+  padding: 3rem 0 2rem;
+}
+.hero-inner {
+  text-align: center;
+}
+.hero-title {
+  font-size: clamp(2rem, 2.8vw + 1rem, 3rem);
+  margin: 0 0 .5rem;
+  color: var(--color-primary);
+}
+.hero-subtitle {
+  margin: 0 auto 1rem;
+  max-width: 52ch;
+  color: var(--color-muted);
+}
+
+.section-title {
+  font-size: 1.5rem;
+  margin: 2rem 0 1rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1rem;
+}
+
+.card {
+  background: #fff;
+  border: 1px solid #eaeaea;
+  border-radius: var(--radius);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.card img {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: #fafafa;
+}
+.card-body {
+  padding: .75rem .9rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+}
+.card-title {
+  margin: 0;
+  font-size: 1rem;
+}
+.price {
+  margin: 0;
+  color: var(--color-primary);
+  font-weight: 700;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: .55rem .9rem;
+  border-radius: var(--radius);
+  border: 1px solid transparent;
+  cursor: pointer;
+  text-decoration: none;
+  font-weight: 600;
+}
+.btn-primary {
+  background: var(--color-primary);
+  color: #fff;
+}
+.btn-primary:hover {
+  filter: brightness(0.95);
+}
+.btn-accent {
+  background: #fff;
+  color: var(--color-accent);
+  border-color: var(--color-accent);
+}
+.btn-accent:hover {
+  background: #fff7ee;
+}
+
+.about {
+  margin: 2rem 0 3rem;
+}
+.about-text {
+  max-width: 70ch;
+  color: var(--color-muted);
+}
+
+.site-footer {
+  border-top: 1px solid #eaeaea;
+  background: #fff;
+  margin-top: 2rem;
+}
+.footer-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 64px;
+  font-size: .9rem;
+  color: #444;
+}
+
+/* Simple utility for balanced headings if browser supports it */
+.text-balance {
+  text-wrap: balance;
+}

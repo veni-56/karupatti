@@ -1,0 +1,34 @@
+{% extends "seller/base_seller.html" %}
+{% block seller_content %}
+<form method="post" class="card">
+  <div class="card-body">
+    {% csrf_token %}
+    <div class="row g-3">
+      <div class="col-md-6">
+        <label class="form-label">Name</label>
+        <input name="name" value="{{ form.name.value|default_if_none:'' }}" class="form-control" required />
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">Price (₹)</label>
+        <input name="price" type="number" step="0.01" value="{{ form.price.value|default_if_none:'' }}" class="form-control" required />
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">Stock</label>
+        <input name="stock" type="number" step="1" value="{{ form.stock.value|default_if_none:'' }}" class="form-control" required />
+      </div>
+      <div class="col-12">
+        <label class="form-label">Image URL</label>
+        <input name="image" value="{{ form.image.value|default_if_none:'' }}" class="form-control" />
+      </div>
+      <div class="col-12">
+        <label class="form-label">Description</label>
+        <textarea name="description" rows="4" class="form-control">{{ form.description.value|default_if_none:'' }}</textarea>
+      </div>
+    </div>
+  </div>
+  <div class="card-footer d-flex gap-2">
+    <button class="btn btn-primary" type="submit">Save</button>
+    <a class="btn btn-outline-secondary" href="{% url 'store:my-products' %}">Cancel</a>
+  </div>
+</form>
+{% endblock %}

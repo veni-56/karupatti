@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %}Buyer Dashboard - Karupatti Shop{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">Buyer Dashboard</h1>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <h3>Welcome, {{ user.username }}!</h3>
+                <p class="text-muted">Manage your orders, wishlist, and profile from here.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-4">
+        <div class="card text-center">
+            <div class="card-body">
+                <h5 class="card-title">My Orders</h5>
+                <p class="card-text">View and track your orders</p>
+                <a href="#" class="btn btn-primary">View Orders</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-center">
+            <div class="card-body">
+                <h5 class="card-title">My Wishlist</h5>
+                <p class="card-text">View your saved items</p>
+                <a href="#" class="btn btn-primary">View Wishlist</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-center">
+            <div class="card-body">
+                <h5 class="card-title">My Profile</h5>
+                <p class="card-text">Update your information</p>
+                <a href="{% url 'accounts:profile' %}" class="btn btn-primary">Edit Profile</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

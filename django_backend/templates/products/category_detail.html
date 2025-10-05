@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block title %}{{ category.name }} - {{ brand }}{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+   Category Header 
+  <div class="card mb-4">
+    <div class="card-body">
+      <h1 class="h2 mb-2">{{ category.name }}</h1>
+      {% if category.description %}
+      <p class="text-muted mb-0">{{ category.description }}</p>
+      {% endif %}
+    </div>
+  </div>
+
+   Products Grid 
+  {% if products %}
+  <div class="row g-4">
+    {% for product in products %}
+    <div class="col-6 col-md-4 col-lg-3">
+      <div class="card h-100">
+        <a href="{% url 'store:product_detail' product.slug %}">
+          {% if product.image %}
+          <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}" style="height: 200px; object-fit: cover;">
+          {% else %}
+          <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
+            <span class="fs-1">📦</span>
+          </div>
+          {% endif %}
+        </a>
+        <div class="card-body">
+          <h5 class="card-title h6">
+            <a href="{% url 'store:product_detail' product.slug %}" class="text-decoration-none text-dark">
+              {{ product.name|truncatewords:5 }}
+            </a>
+          </h5>
+          <p class="text-muted small mb-2">{{ product.shop.name }}</p>
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <span class="fw-bold text-primary">Price: {{ product.price }}</span>
+            {% if product.in_stock %}
+            <span class="badge bg-success">In Stock</span>
+            {% else %}
+            <span class="badge bg-danger">Out of Stock</span>
+            {% endif %}
+          </div>
+          <button class="btn btn-primary btn-sm w-100" {% if not product.in_stock %}disabled{% endif %}>
+            Add to Cart
+          </button>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="alert alert-info">
+    <h4 class="alert-heading">No products in this category</h4>
+    <p class="mb-0">Check back later for new products!</p>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

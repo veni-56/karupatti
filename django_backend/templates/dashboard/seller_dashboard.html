@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+
+{% block title %}Seller Dashboard - Karupatti Shop{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">Seller Dashboard</h1>
+
+{% if not shop %}
+    <div class="alert alert-warning">
+        <h4>Welcome, {{ user.username }}!</h4>
+        <p>You haven't created a shop yet. Create one to start selling.</p>
+        <a href="{% url 'shops:create_shop' %}" class="btn btn-primary">Create Shop</a>
+    </div>
+{% else %}
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <h3>{{ shop.name }}</h3>
+                    <p class="text-muted">{{ shop.description|truncatewords:20 }}</p>
+                    <div class="d-flex gap-2">
+                        <a href="{% url 'shops:update_shop' %}" class="btn btn-sm btn-outline-primary">Edit Shop</a>
+                        <a href="{% url 'shops:shop_detail' shop.slug %}" class="btn btn-sm btn-outline-secondary">View Public Page</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title">Total Products</h5>
+                    <h2>{{ total_products }}</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title">Active Products</h5>
+                    <h2>{{ active_products }}</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title">Available Balance</h5>
+                    <h2>${{ wallet.available_balance }}</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title">Pending Balance</h5>
+                    <h2>${{ wallet.pending_balance }}</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Quick Actions</h5>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex gap-2 flex-wrap">
+                        <a href="#" class="btn btn-primary">Add Product</a>
+                        <a href="#" class="btn btn-secondary">View Orders</a>
+                        <a href="#" class="btn btn-info">Create Event</a>
+                        <a href="#" class="btn btn-success">Create Coupon</a>
+                        <a href="{% url 'payments:request_payout' %}" class="btn btn-warning">Request Payout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% if recent_earnings %}
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Recent Earnings</h5>
+                </div>
+                <div class="card-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for earning in recent_earnings %}
+                            <tr>
+                                <td>{{ earning.created_at|date:"M d, Y" }}</td>
+                                <td>${{ earning.amount }}</td>
+                                <td>
+                                    <span class="badge bg-success">Completed</span>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+{% endif %}
+{% endblock %}

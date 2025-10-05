@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ brand }} - Multi-Vendor E-Commerce Platform{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="bg-primary text-white py-5 mb-5">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-6">
+        <h1 class="display-4 fw-bold mb-3">Welcome to {{ brand }}</h1>
+        <p class="lead mb-4">
+          Discover amazing products from trusted sellers. Natural sweetness from palm jaggery and more.
+        </p>
+        <div class="d-flex gap-3">
+          <a class="btn btn-light btn-lg" href="{% url 'store:product_list' %}">Shop Now</a>
+          <a class="btn btn-outline-light btn-lg" href="{% url 'shops:shop_list' %}">Browse Shops</a>
+        </div>
+      </div>
+      <div class="col-lg-6 d-none d-lg-block">
+        <img src="{% static 'img/hero.jpg' %}" alt="Hero" class="img-fluid rounded shadow">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Categories Section -->
+{% if categories %}
+<section class="container mb-5">
+  <h2 class="h3 mb-4">Shop by Category</h2>
+  <div class="row g-4">
+    {% for category in categories %}
+    <div class="col-6 col-md-4 col-lg-2">
+      <a href="{% url 'store:category_detail' category.slug %}" class="text-decoration-none">
+        <div class="card h-100 text-center hover-shadow">
+          {% if category.image %}
+          <img src="{{ category.image.url }}" class="card-img-top" alt="{{ category.name }}">
+          {% else %}
+          <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 120px;">
+            <span class="fs-1">📦</span>
+          </div>
+          {% endif %}
+          <div class="card-body">
+            <h5 class="card-title h6">{{ category.name }}</h5>
+          </div>
+        </div>
+      </a>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+
+<!-- Featured Products Section -->
+<section class="container mb-5">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="h3 mb-0">Featured Products</h2>
+    <a href="{% url 'store:product_list' %}" class="btn btn-outline-primary">View All</a>
+  </div>
+  
+  {% if featured_products %}
+  <div class="row g-4">
+    {% for product in featured_products %}
+    <div class="col-6 col-md-4 col-lg-3">
+      <div class="card h-100 hover-shadow">
+        <a href="{% url 'store:product_detail' product.slug %}">
+          {% if product.image %}
+          <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}" style="height: 200px; object-fit: cover;">
+          {% else %}
+          <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
+            <span class="fs-1">📦</span>
+          </div>
+          {% endif %}
+        </a>
+        <div class="card-body">
+          <h5 class="card-title h6">
+            <a href="{% url 'store:product_detail' product.slug %}" class="text-decoration-none text-dark">
+              {{ product.name }}
+            </a>
+          </h5>
+          <p class="text-muted small mb-2">{{ product.shop.name }}</p>
+          <div class="d-flex justify-content-between align-items-center">
+            <span class="fw-bold text-primary">Price: {{ product.price }}</span>
+            {% if product.in_stock %}
+            <span class="badge bg-success">In Stock</span>
+            {% else %}
+            <span class="badge bg-danger">Out of Stock</span>
+            {% endif %}
+          </div>
+          <button class="btn btn-primary w-100 mt-3" {% if not product.in_stock %}disabled{% endif %}>
+            Add to Cart
+          </button>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="alert alert-info">
+    <p class="mb-0">No featured products available at the moment. Check back soon!</p>
+  </div>
+  {% endif %}
+</section>
+
+<!-- CTA Section -->
+<section class="container my-5 py-5 text-center">
+  <h2 class="h3 mb-3">Want to Sell on {{ brand }}?</h2>
+  <p class="text-muted mb-4">Join our platform and reach thousands of customers</p>
+  {% if user.is_authenticated %}
+    {% if user.role == 'seller' %}
+    <a href="{% url 'dashboard:seller_dashboard' %}" class="btn btn-primary btn-lg">Go to Dashboard</a>
+    {% else %}
+    <a href="{% url 'shops:create_shop' %}" class="btn btn-primary btn-lg">Create Your Shop</a>
+    {% endif %}
+  {% else %}
+  <a href="{% url 'accounts:register' %}?role=seller" class="btn btn-primary btn-lg">Become a Seller</a>
+  {% endif %}
+</section>
+
+<style>
+.hover-shadow {
+  transition: box-shadow 0.3s ease;
+}
+.hover-shadow:hover {
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+</style>
+{% endblock %}

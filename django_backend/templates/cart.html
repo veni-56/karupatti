@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="container">
+  <h1 class="section-title">Your Cart</h1>
+  {% if items %}
+  <div class="grid" style="grid-template-columns:1fr; gap:1rem">
+    <table class="card" style="width:100%">
+      <thead>
+        <tr><th style="text-align:left;padding:.75rem">Item</th><th>Qty</th><th>Price</th><th>Total</th><th></th></tr>
+      </thead>
+      <tbody>
+        {% for it in items %}
+        <tr>
+          <td style="padding:.5rem 0 .5rem .75rem">{{ it.name }}</td>
+          <td style="text-align:center">{{ it.qty }}</td>
+          <td style="text-align:center">$ {{ it.price }}</td>
+          <td style="text-align:center">$ {{ it.line_total }}</td>
+          <td style="text-align:right;padding-right:.75rem">
+            <a class="btn btn-accent" href="{% url 'remove_from_cart' product_id=it.id %}">Remove</a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <form class="card" action="{% url 'apply_coupon' %}" method="post" style="padding:1rem">
+      {% csrf_token %}
+      <label for="code">Coupon code</label>
+      <div style="display:flex; gap:.5rem; margin-top:.25rem">
+        <input id="code" name="code" placeholder="Enter code" value="{{ coupon_code|default:'' }}" />
+        <button class="btn btn-accent" type="submit">Apply</button>
+      </div>
+      <p style="margin-top:.5rem;color:var(--color-muted)">Discount: $ {{ discount }}</p>
+    </form>
+
+    <div class="card" style="padding:1rem">
+      <p style="margin:0 0 .5rem">Subtotal: $ {{ total }}</p>
+      <p style="margin:0 0 .5rem">Discount: $ {{ discount }}</p>
+      <p style="margin:0 0 1rem;font-weight:700">Grand total: $ {{ grand_total }}</p>
+      <form method="post" action="{% url 'checkout' %}">
+        {% csrf_token %}
+        <button class="btn btn-primary" type="submit">Checkout</button>
+      </form>
+    </div>
+  </div>
+  {% else %}
+    <p>Your cart is empty.</p>
+  {% endif %}
+</section>
+{% endblock %}

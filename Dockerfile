@@ -24,11 +24,15 @@ RUN pip install --upgrade pip && pip install -r /app/requirements.txt
 # Copy project
 COPY django_backend /app/django_backend
 
+# Copy entrypoint script to run migrations + collectstatic before starting gunicorn
+COPY entrypoint.sh /app/entrypoint.sh
+RUN chmod +x /app/entrypoint.sh
+
 # Use the Django backend as the working directory
 WORKDIR /app/django_backend
 
 # Expose port (Render sets PORT env)
 EXPOSE 8000
 
-# Default command runs gunicorn with our config
-CMD ["gunicorn", "karupatti_shop.wsgi:application", "-c", "gunicorn.conf.py"]
+# Start via entrypoint to apply migrations and collect static on each deploy
+CMD ["bash", "/app/entrypoint.sh"]

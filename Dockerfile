@@ -35,4 +35,6 @@ WORKDIR /app/django_backend
 EXPOSE 8000
 
 # Start via entrypoint to apply migrations and collect static on each deploy
-CMD ["bash", "/app/entrypoint.sh"]
+CMD ["gunicorn", "karupatti_shop.wsgi:application","--bind","0.0.0.0:8000"]
+
+

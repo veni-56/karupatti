@@ -1,7 +1,7 @@
 #!/bin/bash
 set -o errexit
 
-cd /app
+cd /app/django_backend
 
 python manage.py migrate
 python manage.py collectstatic --noinput

@@ -4,7 +4,6 @@ ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 ENV PIP_NO_CACHE_DIR=1
 
-# System deps
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
     libpq-dev \
@@ -18,7 +17,8 @@ WORKDIR /app
 COPY requirements.txt /app/requirements.txt
 RUN pip install --upgrade pip && pip install -r /app/requirements.txt
 
-COPY . /app/django_backend
+# 👇 Copy everything into /app (not /app/django_backend)
+COPY . /app
 COPY entrypoint.sh /app/entrypoint.sh
 RUN chmod +x /app/entrypoint.sh
 

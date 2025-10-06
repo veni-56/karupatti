@@ -24,4 +24,4 @@ RUN chmod +x /app/entrypoint.sh
 
 EXPOSE 8000
 
-CMD bash -c "gunicorn django_backend.wsgi:application --bind 0.0.0.0:$PORT"
+CMD ["bash", "/app/entrypoint.sh"]

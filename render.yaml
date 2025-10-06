@@ -13,7 +13,7 @@ services:
         value: "karupatti_shop.settings"
       # Configure SITE_URL to your Render URL after first deploy (e.g., https://karupatti-shop.onrender.com)
       - key: SITE_URL
-        value: "https://karupatti-shop.onrender.com"
+        value: "https://karupatti-shop-o41a.onrender.com"
       # Set DEBUG=false in production
       - key: DEBUG
         value: "false"
@@ -62,7 +62,7 @@ services:
         value: "karupatti_shop.settings"
       # Configure SITE_URL to your Render URL after first deploy (e.g., https://karupatti-shop.onrender.com)
       - key: SITE_URL
-        value: "https://karupatti-shop.onrender.com"
+        value: "https://karupatti-shop-o41a.onrender.com"
       # Set DEBUG=false in production
       - key: DEBUG
         value: "false"

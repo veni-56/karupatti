@@ -68,7 +68,6 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "karupatti_shop.wsgi.application"
 
 DATABASES = {
     "default": {

@@ -1,10 +1,9 @@
 #!/bin/bash
 set -o errexit
 
-#Django commands
-python manage.py migrate
-python manage.py collectstatics
+cd /app/django_backend
 
-#start server
-gunicorn karupatti_shop.wsgi:application
---bind 0.0.0.0:8000
+python manage.py migrate
+python manage.py collectstatic --noinput
+
+gunicorn karupatti_shop.wsgi:application --bind 0.0.0.0:$PORT

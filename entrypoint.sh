@@ -1,12 +1,10 @@
 #!/bin/bash
 set -o errexit
 
-# Move into Django project folder
-cd /app/django_backend
-
-# Django commands
+#Django commands
 python manage.py migrate
-python manage.py collectstatic --noinput
+python manage.py collectstatics
 
-# Start Gunicorn server
-gunicorn karupatti_shop.wsgi:application --bind 0.0.0.0:$PORT
+#start server
+gunicorn karupatti_shop.wsgi:application
+--bind 0.0.0.0:8000
